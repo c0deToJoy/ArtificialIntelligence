@@ -1,0 +1,42 @@
+Joy Mosisa and Parker Hix
+
+Q1.1: explain the implementation of ReflexAgent in multiAgents.py and how you improved it.
+
+The original ReflexAgent selects actions by generating a successor game state for each possible move and returning its score. 
+We enhanced it by factoring in the agent's distance to the closest food pellet and ghost, 
+as well as the remaining food, adjusting points up or down accordingly.
+
+Q1.2: What is your value function and why do you think this estimation makes sense?
+
+Our value function starts with the game’s original score, subtracts a penalty for ghost proximity, 
+adds 1 over the Manhattan distance to the nearest food pellet, and subtracts any leftover food. 
+We believe this works well because it maximizes our score (from eating food pellets) while reducing the risk of ghost encounters.
+ Plus, using the inverse of distances instead of raw values keeps weights manageable, starting between 0 and 1, 
+ and gives closer objects more pull since 1/x decreases as distance grows.
+
+Q2.1: Explain your algorithm. Why do you think it is working?
+
+Our minimax algorithm picks Pacman’s actions by recursively evaluating potential game states. 
+It alternates between Pacman (maximizing player) and ghosts (minimizing players), selecting the path with the highest score. This succeeds because it boosts Pacman’s score while cutting ghost-related losses, with a hefty penalty for ghost closeness keeping him from chasing food into danger.
+
+Q3.1: The AlphaBetaAgent minimax values should be identical to the MinimaxAgent minimax values. Explain why.
+
+That’s because alpha-beta pruning is just an optimization of the minimax algorithm! 
+It reduces the number of computations without altering the evaluations themselves. However, Pacman’s chosen actions might differ due to pruning or tie-breaking—it’s only the values that stay constant.
+
+Q3.2: Note that the actions it selects can vary from the algorithm without alpha-beta pruning because of different tie-breaking behavior. 
+Explain your strategy for breaking a tie.
+
+In both implementations, we resolve ties by picking the first action from gameState.getLegalActions(0) with the highest value. 
+
+Q4.1: Explain your Expectimax algorithm
+
+This algorithm aims to pick the agent’s best action based on the highest value among all options. 
+It involves two calculations: Pacman selects the max node, while ghost actions form chance nodes with their expected values averaged. 
+It’s recursive, running until it hits a terminal state.
+
+Q5.1: Explain your new evaluation function, why do you think this new evaluation function is better compared to the previous one?
+
+Our new evaluation function mirrors the original but uses the current game state instead of successor states from possible actions. 
+It also factors in scared ghosts, adding points for being near them. 
+This beats the old one by letting Pacman make faster, smarter calls based on his immediate setup, focusing on action outcomes rather than just the actions themselves.
