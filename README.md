@@ -1,5 +1,5 @@
 # Important Files (the ones I actually worked on):
-## [tutorial](https://github.com/c0deToJoy/AI/tree/main/tutorial)
+## tutorial
 * addition.py
 * buyLotsOfFruit.py
 * shopSmart.py
