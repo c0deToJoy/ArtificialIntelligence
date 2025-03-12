@@ -1,0 +1,133 @@
+Joy Mosisa and Parker Hix
+
+Answer questions marked as "QS"
+
+QS1.1: 
+
+We used a stack to implement DFS.
+We do this to take advantage of LIFO, which enables us to always 
+view a node just as soon as we push it. This property makes it so 
+that we can keep expanding each state, descending further into the 
+graph until one of the states we expand is the goal.
+
+
+QS1.2:
+
+The exploration is about what we expect.
+Pacman doesn't visit all of the explored nodes, especially the ones 
+that are in deadends. This actually reveals an interesting property 
+of the searches we are doing - Pacman shouldn't ever have to 
+backtrack if there is a path to the node. Notably, Pacman has access 
+to the entire state of the world, and doesn't begin walking until the plan is finished. Hence he doesn't ever make a mistake like that.
+Also, some paths on the way to the goal are never explored. Even 
+though none of them lead to the goal, we can imagine that its 
+possible for a path to be unexplored that actually leads to a faster 
+solution, since our algorithm will return the first path to the goal 
+it finds.
+
+
+QS2.1:
+
+We use the queue to implement BFS. This is so that we can take 
+advantage of FIFO, which enables us to check siblings of nodes 
+before their children.
+
+
+QS3.1:
+
+The cost function is implemented with 
+`problem.getCostOfActions(path + [action])`. Since this is UCS, it 
+expands the least-cost path first. This guarantees that by the time 
+the goal node is reached, a least-cost path will be returned first.
+Each action taken has a cost based on the previous actions (the path) 
+up to that point. Ultimately, the most weight is given to the cost of
+the next action.
+
+
+QS4.1:
+
+nullHeuristic simply returns 0 at all times, whereas the Manhattan 
+distance heuristic is based on the distance in tiles. nullHeuristic 
+does not give the optimal solution because it returns the same value 
+no matter what. The Manhattan distance is better because it updates 
+based on the agent's current position (state).
+
+
+QS4.2:
+
+For A*, the agent tends to walk along the walls. For DFS, the agent 
+walks left and right as it travels down towards the goal, sometimes 
+going away from the target. Clearly, for openMaze, DFS is the worst 
+algorithm to use. Under the nullHeuristic, BFS, UCS, and A* behave 
+very similarly. In fact, they all produce a score of 456 and expand 
+682 tiles. Using the Manhattan heuristic, A* performs much better, 
+solving openMaze in 535 node expansions.
+
+
+QS5.1:
+
+Our state representation consists of Pac-Man’s position and a record 
+of which corners have been visited. Specifically, 
+`startState = (self.startingPosition, tuple([False] * len(self.corners)))` 
+pairs the agent’s coordinates with a tuple of boolean values, where 
+each `False` indicates an unvisited corner. 
+
+
+QS5.2:
+
+The state consists of Pac-Man’s position and a record of visited 
+corners. The goal is reached when all corners have been visited. If 
+the agent moves in a valid direction, more states can be expanded.
+Each legal move costs 1. Other illegal moves are avoided.
+
+
+QS6.1:
+
+We used a heuristic that calculates the Manhattan distance 
+from Pacman's current position to each unvisited corner and 
+returns the maximum of these distances. The positives of this are
+that this heuristic is simple to implement and generally inexpensive
+to calculate. Additionally, by considering the farthest unvisited 
+corner, the heuristic provides a reasonable estimate that the 
+search agent can be guided with towards the goal. On the other hand,
+the heuristic does not consider the overall path cost to visit all 
+unvisited corners and relies solely on the maximum distance to the 
+farthest corner, which may not always provide the best guidance 
+in complex mazes with many walls and/or obstacles. However, the
+heuristic is consistent because the Manhattan distance is a
+consistent metric where the cost of moving from one node to another
+is always non-negative and the heuristic value decreases as Pacman 
+moves closer to the corners.
+
+
+QS7.1:
+
+Our heuristic is a combination of the Manhattan distance and 
+maze distance to the farthest and closest food dots which also
+takes into account the cost of the path to the farthest dot. It
+pulls the maximum of all those distances and adds the cost in the
+manner of A* search. The strong points of this heuristic is that
+it considers multiple distance metrics, providing a more informed 
+estimate of the cost to collect all food dots. It's also admissible
+because it does not overestimate the true cost to reach the goal.
+The weak points are that it can be computationally expensive and
+the time complexity could end up slower despite it expanding fewer
+nodes. Lastly, yes, the heuristic is overall consistent because each
+component of the heuristic (Manhattan and maze distances) is
+non-decreasing along any path, meaning the heuristic value at any 
+node is less than or equal to the cost of reaching a successor node
+plus the heuristic value at the successor node, as per definition.
+
+
+QS8.1: 
+
+To make an agent that always greedily eats the closest dot, 
+we used A* search with a null heuristic to simulate Greedy Search
+which for finding the closest food dot. This is good because 
+using A* search ensures that the path to the closest dot is 
+optimal in terms of the number of steps taken. Additionally,
+A* search with a null heuristic is complete and will always 
+find a path to the closest dot if one exists. However, A* 
+can take longer to compute, especially in large or complex
+mazes with many food dots. Furthermore, the agent repeatedly 
+performs A* search for each food dot, which can be inefficient.
