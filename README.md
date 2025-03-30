@@ -10,3 +10,8 @@
 ## multiagent
 *  P2_supplemental.txt
 *  multiAgents.py
+## reinforcement
+* P3_supplemental.txt
+* analysis.py
+* qlearningAgents.py
+* valueIterationAgents.py
