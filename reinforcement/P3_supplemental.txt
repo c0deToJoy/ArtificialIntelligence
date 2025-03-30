@@ -1,0 +1,62 @@
+
+######################
+# Supplemental Questions #
+######################
+
+# Joy Mosisa and Parker Hix #
+
+Q1#######################
+
+QS1.1:
+We implemented this step of value iteration by determining the 
+optimal action for a given state in an MDP. It iterates over all 
+possible actions, computing the Q-value for each action using 
+computeQValueFromValues(state, action). We then have it select
+the action with the highest Q-value, effectively choosing the 
+action that maximizes the expected utility.
+
+
+QS1.2: Explain how you implemented computeQValueFromValues(state, action)  and add your explanation to P3_supplement.txt
+We implemented the computeQValueFromValues function using the 
+Bellman equation for MDPs.
+
+Our method iterates over all possible
+next states (Vk) and their transition probabilities (t) using 
+getTransitionStatesAndProbs(state, action), computing the expected
+utility as the sum of the immediate reward (r) and the discounted 
+value of the next state (self.discount∗self.values[Vk]). The 
+Q-value is the weighted sum of these utilities over all possible 
+transitions and once all iterations are complete, we return the
+computed Q-value.
+
+Q3#######################
+
+QS3.1: Explain the reason you picked these values to achieve a desired policy. (i.e., you may give us a counter example)
+
+1. Question 3a: A low discount (0.2) focuses on immediate rewards, and a negative living reward (-0.2) pushes the agent to exit fast via the shortest path. Noise is 0 for reliability.
+2. Question 3b: Same low discount (0.2) keeps it short-term, but noise (0.2) and no living reward (0) make the agent head to the nearest exit while avoiding risks like cliffs.
+3. Question 3c: A high discount (0.9) favors long-term rewards, so the agent picks a farther, better exit. Noise (0) and living reward (0) keep it straightforward.
+4. Question 3d: Like 3c, a high discount (0.9) targets the farther exit, but noise (0.2) adds caution to avoid risks like cliff-jumping. Living reward is 0.
+5. Question 3e: A discount of 0 limits focus to the next step, and a huge living reward (100) with no noise (0) drives the agent to stay alive forever, avoiding exits for more rewards.
+
+Q5#######################
+
+QS5.1: Explain how you implemented your Q-learning agent. 
+
+The QLearningAgent is implemented as a reinforcement learning agent that learns optimal actions in a Markov Decision Process using Q-learning. It maintains a Q-value table (stored as a Counter) mapping state-action pairs to their estimated values. The agent balances exploration and exploitation with an epsilon-greedy strategy: with probability epsilon, it picks a random action, otherwise it selects the action with the highest Q-value. Q-values are updated using the formula Q(s,a) = (1-alpha)Q(s,a) + alpha(reward + gamma max Q(s',a')), where alpha is the learning rate and gamma is the discount factor. Key methods include getQValue to retrieve Q-values, computeValueFromQValues to find the max Q-value for a state, computeActionFromQValues to pick the best action, and update to adjust Q-values based on observed transitions.
+
+QS5.2 [optional]: Try noise =0.2 and submit the screenshot of your result. Compare and Analyze the result with no noise case scenario. You have to mention the name of the screenshot file name in Q5.2. Otherwise we cannot look for your answers.
+
+Q6#######################
+
+QS6.1: You can also observe the following simulations for different epsilon values. Does that behavior of the agent match what you expect? Explain.
+
+With epsilon at 0, the agent always exploits, possibly missing better long-term actions, while epsilon at 1 makes it fully random, ignoring Q-values. Gradually decreasing epsilon from high to low optimizes learning by shifting from exploration to exploitation as experience grows. Yes, this matches what we expect.
+
+QS6.2 [optional]: Additional code, you should now be able to run a Q-learning crawler robot. Save the screen shot of the running crawler bot as a video and upload it in Google drive, share the link in P3_supplemental.txt
+
+Here is a link to this bonus portion:
+https://drive.google.com/file/d/13CasqZU5rDawh7aJmAWHobXlWZ2I8ViM/view
+
+Q7#######################
+QS7.1: Is there an epsilon and a learning rate for which it is highly likely (greater than 99%) that the optimal policy will be learned after 50 iterations?  Your answer is EITHER a 2-item tuple of (epsilon, learning rate) OR the string 'NOT POSSIBLE' if there is none. Epsilon is controlled by -e, learning rate by -l. Put your answer in analysis.py as the return value of question8() (this numbering is from an older version of the project, sorry for the confusion).
